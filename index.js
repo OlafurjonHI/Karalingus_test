@@ -1,8 +1,7 @@
 
-const url2 = 'https://thorfinnur.herokuapp.com/api/artists';
-const url = 'data.json';
+const url = 'https://thorfinnur.herokuapp.com/api/artists';
+const url2 = 'data.json';
 document.addEventListener('DOMContentLoaded', () => {
-
 fetch(url)
       .then((response) => {
         if (response.ok) {
@@ -48,3 +47,35 @@ function empty(element) {
     element.removeChild(element.firstChild);
   }
 }
+
+const form = document.querySelector('form');
+form.addEventListener('submit',submitForm);
+console.log(form);
+
+function submitForm(e) {
+	e.preventDefault();
+	let time =  form.querySelector('.time').value;
+	let temp = form.querySelector('.temp').value;
+	const data = {tempeture:temp ,'time':time};
+	console.log(data);
+	console.log(JSON.stringify(data));
+	postData(url, data);
+
+}
+
+function postData(url = url, data = {}) {
+    return fetch(url, {
+        method: "POST",
+        mode: "cors", 
+        cache: "no-cache", 
+        credentials: "same-origin", 
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+        },
+        redirect: "follow", 
+        referrer: "no-referrer", 
+        body: JSON.stringify(data), 
+    })
+    .then(response => response.json()); 
+}
+
